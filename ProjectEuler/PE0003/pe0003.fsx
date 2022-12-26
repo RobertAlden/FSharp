@@ -15,3 +15,4 @@ while values.Head < halt do
     values <- List.filter(fun x -> x % values.Head <> 0) values
 primes <- (List.rev primes) @ values
 let answer = primes |> List.filter(fun x -> (number) % x = 0) |> List.max
+printfn "Answer: %d" answer
