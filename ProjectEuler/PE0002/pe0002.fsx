@@ -21,6 +21,6 @@ let applyN f n v =
 let result = applyN fibIter 100 [1I;0I] 
                 |> List.filter(fun x -> x < 4_000_000I) 
                 |> List.filter(fun x -> x % 2I = 0I) 
-                |> List.reduce(fun x y-> x + y)
+                |> List.reduce((+))
 
 printfn "Answer: %A" result 
