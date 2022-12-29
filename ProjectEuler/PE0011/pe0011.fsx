@@ -21,21 +21,16 @@ let windowed2D w h (arr:int64 array2d) = [for x in [0..(Array2D.length2 arr-w)] 
 
 let transpose (arr: int64 array2d) =  Array2D.init (arr.GetLength 1) (arr.GetLength 0) (fun x y -> arr[y,x])
 let reverse (arr: int64 array2d) =  Array2D.init (arr.GetLength 0) (arr.GetLength 1) (fun x y -> arr[(arr.GetLength 0 - 1) - x,y])
-let maxProduct (arr: int64 array2d) = 
-    let arrT = transpose arr
-    let arrR = reverse arr
-    let maxHorizontalProduct = [for i in [0..((arr.GetLength 1)-1)] -> arr[i, *] |> Array.reduce(*)] 
-                               |> List.max
-    let maxVerticalProduct = [for i in [0..((arrT.GetLength 1)-1)] -> arrT[i, *] |> Array.reduce(*)] 
-                             |> List.max
-    let diagonalProduct = List.zip [0..((arr.GetLength 0)-1)] [0..((arr.GetLength 1)-1)] 
-                          |> List.map (fun (x,y) -> arr[x,y]) 
-                          |> List.reduce(*)
-    let reverseDiagonalProduct = List.zip [0..((arrR.GetLength 0)-1)] [0..((arrR.GetLength 1)-1)] 
-                                 |> List.map (fun (x,y) -> arrR[x,y]) 
+let maxRowProduct (r: int64 array2d) = [for i in [0..((r.GetLength 1)-1)] -> r[i, *] |> Array.reduce(*)]
+                                       |> List.max
+let getDiag (r: int64 array2d) = List.zip [0..((r.GetLength 0)-1)] [0..((r.GetLength 1)-1)] 
+                                 |> List.map (fun (x,y) -> r[x,y]) 
                                  |> List.reduce(*)
-    List.max [maxHorizontalProduct; maxVerticalProduct; diagonalProduct; reverseDiagonalProduct]
-
+let maxProduct (arr: int64 array2d) = 
+    List.max [maxRowProduct arr;
+              arr |> transpose |> maxRowProduct; 
+              getDiag arr; 
+              arr |> reverse |> getDiag;]
 
 let answer =  List.max [for window in (windowed2D 4 4 grid) -> maxProduct window]
 printfn $"Answer: {answer}"
