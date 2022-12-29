@@ -1,12 +1,8 @@
 (*
-The prime factors of 13195 are 5, 7, 13 and 29.
+The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
 
-What is the largest prime factor of the number 600851475143 ?
+Find the sum of all the primes below two million.
 *)
-
-let number = 600851475143L
-let top = (int64 (sqrt (float number)))
-
 
 let sieve (limit: int64) = 
     let halt = float limit |> sqrt |> int
@@ -16,7 +12,4 @@ let sieve (limit: int64) =
         collectPrime((sieve |> List.filter(fun x -> x % sieve.Head <> 0)),prime)
     collectPrime ([2L..limit],[])
 
-let primes = sieve top
-
-let answer = primes |> List.filter(fun x -> (number) % x = 0) |> List.max
-printfn "Answer: %d" answer
+let answer = sieve 2_000_000 |> List.sum
