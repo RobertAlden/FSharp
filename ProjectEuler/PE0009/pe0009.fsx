@@ -18,4 +18,4 @@ let answer = triples 1000f
              |> List.reduce(*)
              |> int64
 
-printfn "Answer: %d" answer
+printfn $"Answer: {answer}"

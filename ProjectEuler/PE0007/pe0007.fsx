@@ -11,3 +11,4 @@ let rec primeIter (p:int64 list) (n: int64) =
             (primeIter p (n + 2L)) else (primeIter (n::p) (n + 2L)))
 
 let answer = primeIter [2] 3 |> List.rev |> List.item(10000)
+printfn $"Answer: {answer}"

@@ -24,5 +24,5 @@ let answer = numbers |> List.distinct
                      |> List.filter(fun x -> digits x |> palindrome)
                      |> List.max
 
-printfn "Answer %d" answer
+printfn $"Answer: {answer}"
 

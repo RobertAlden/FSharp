@@ -20,4 +20,4 @@ let squareOfSum = int ((List.reduce (+) [1f..(float32 limit)]) ** 2f)
 
 let answer = squareOfSum - sumOfSquares
 
-printfn "Answer %d" answer
+printfn $"Answer: {answer}"

@@ -23,4 +23,4 @@ let result = applyN fibIter 100 [1I;0I]
                 |> List.filter(fun x -> x % 2I = 0I) 
                 |> List.reduce((+))
 
-printfn "Answer: %A" result 
+printfn $"Answer: {result}"

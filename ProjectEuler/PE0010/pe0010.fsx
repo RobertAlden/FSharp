@@ -13,3 +13,4 @@ let sieve (limit: int64) =
     collectPrime ([2L..limit],[])
 
 let answer = sieve 2_000_000 |> List.sum
+printfn $"Answer: {answer}"

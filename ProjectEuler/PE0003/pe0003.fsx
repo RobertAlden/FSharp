@@ -19,4 +19,4 @@ let sieve (limit: int64) =
 let primes = sieve top
 
 let answer = primes |> List.filter(fun x -> (number) % x = 0) |> List.max
-printfn "Answer: %d" answer
+printfn $"Answer: {answer}"

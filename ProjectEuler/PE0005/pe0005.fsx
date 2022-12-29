@@ -9,5 +9,4 @@ let rec gcd (x:int64) (y:int64) = if y = 0 then abs x else gcd y (x % y)
 let lcm x y = x * y / (gcd x y)
 
 let answer = [1L..20] |> List.reduceBack(lcm)
-
-printfn "Answer %d" answer
+printfn $"Answer: {answer}"
