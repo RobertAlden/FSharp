@@ -9,12 +9,8 @@ Find the product abc.
 *)
 
 let triples limit = [for x in [2f..(limit/2f)] do
-                        for y in [x..(limit/2f)] do yield [x; y; (sqrt ((x **2f) + (y **2f)))] ]
-
-let isPythagorean (lst: float32 list)= 
-    match lst with
-    | a::b::c::rest -> (sqrt (a**2f + b**2f) ) = (c ** 2f)   
-    | _ -> false
+                         for y in [x..(limit/2f)] do 
+                             yield [x; y; (sqrt ((x **2f) + (y **2f)))] ]
 
 let answer = triples 1000f 
              |> List.filter (fun x -> List.sum x = 1000f) 
