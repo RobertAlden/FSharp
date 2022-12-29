@@ -27,16 +27,9 @@ let triangle nth = nth*(nth+1L)/2L
 let hasFactors factors n = 
     n |> factorize |> List.length > factors
 
-let rec seekSequenceForTrue f g i stop = 
-    match i > stop with
-    | true -> None
-    | false -> match f (g i) with 
-               | true -> Some (g i)
-               | false -> seekSequenceForTrue f triangle (i+1L) stop
-               
 let answer = 
-    match seekSequenceForTrue (hasFactors 500) triangle 10000 20000 with
-    | Some n -> n
+    match [1L..20000] |> List.tryFind(fun x -> hasFactors 500 (triangle x)) with
+    | Some n -> triangle n
     | _ -> 0L
-                
+        
 printfn $"Answer: {answer}"
