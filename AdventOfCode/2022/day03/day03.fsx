@@ -4,14 +4,20 @@ let input = System.IO.File.ReadAllLines "input.txt" |> Array.toList
 
 let splitHalf str = 
     let half = String.length str / 2
-    (str[0..half-1], str[half..String.length str])
+    [str[0..half-1]; str[half..String.length str]]
 
-let sharedChar (a, b) =
-        a |> Seq.toList |> Set.ofList
-        b |> Seq.toList |> Set.ofList
-
-let silver data = data 
-let gold data = data 
+let sharedChar strings =
+    strings |> List.map (fun x -> x |> (Seq.toList >> Set.ofList)) 
+            |> List.reduce (fun a b -> Set.intersect a b) 
+            |> Set.toList
+            
+let alphaValue (ch: char) = 
+    " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" 
+    |> Seq.toList 
+    |> List.findIndex (fun x -> x = ch)
+    
+let silver data = data |> List.map splitHalf |> List.collect sharedChar |> List.map alphaValue |> List.sum
+let gold data = data |> List.chunkBySize 3 |> List.collect sharedChar |> List.map alphaValue |> List.sum
 
 printfn "--- TEST RUN ---"
 printfn $"Silver: {silver test}"

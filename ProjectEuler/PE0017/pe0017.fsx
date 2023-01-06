@@ -58,5 +58,6 @@ let convertToText n =
 let digitsOf n = 
     string n |> Seq.toList |> List.map(fun x -> string x)
 
-let x = [1..1000] |> List.map(fun x -> convertToText (digitsOf x)) |> List.reduce(+) |> String.length
+let answer = [1..1000] |> List.map(fun x -> convertToText (digitsOf x)) |> List.reduce(+) |> String.length
+printfn $"Answer: {answer}"
     
