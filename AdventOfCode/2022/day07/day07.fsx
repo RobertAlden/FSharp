@@ -6,6 +6,7 @@ let test = System.IO.File.ReadAllLines "test.txt" |> Array.toList
 
 
 type directory = {
+    name : string
     size : int
     dirs : directory list
 }
@@ -23,15 +24,24 @@ let (|RegexMatch|_|) pattern input =
         Some m.Groups
    else None
 
-let parseFile line =
-    match line with
-    | RegexMatch "\$ cd (.+)" line -> "cd"
-    | RegexMatch "\$ ls" line -> "ls"
-    | RegexMatch "dir (.+)" line -> "dir"
-    | RegexMatch "(\d+)" line -> "filesize"
-    | _ -> failwith $"Invalid statement: {line}" 
+let parseFileIntoTree (flag:string) data =
+    let node = {name=flag;size=0;dirs=[]}
+    let line = data |> List.filter (fun x -> (string x).Contains ("cd "+flag)) |> List.head
+    let start = data |> List.findIndex (fun x -> x = line) |> (+) 2
+    let parseLine tree line =
+        match line with
+            | RegexMatch "\$ cd (.+)" line -> tree
+            | RegexMatch "\$ ls" line -> tree
+            | RegexMatch "dir (.+)" line -> {tree with dirs=tree.dirs @ [{name=line.[1].Value; size=0; dirs=[]}]}
+            | RegexMatch "(\d+)" line -> {tree with size=(tree.size+(int line.[1].Value))}
+            | _ -> failwith $"Invalid statement: {line}" 
+    data[start..] |> List.fold parseLine node
+    node
+        
 
-let silver data = data |> List.map parseFile
+let silver data = 
+    let tree = parseFileIntoTree data "/"
+    tree
                   
 let gold data = data
 
